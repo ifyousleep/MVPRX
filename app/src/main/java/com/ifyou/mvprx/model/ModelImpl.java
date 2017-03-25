@@ -7,6 +7,7 @@ import com.ifyou.mvprx.model.data.Response;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -16,12 +17,24 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ModelImpl implements Model {
 
+    private final ObservableTransformer schedulersTransformer;
     private ApiInterface apiInterface = ApiModule.getApiInterface();
+
+    public ModelImpl() {
+        schedulersTransformer = o -> (o).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
 
     @Override
     public Observable<List<Response>> getRepoList(String name) {
         return apiInterface.getRepositories(name)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> ObservableTransformer<T, T> applySchedulers() {
+        return (ObservableTransformer<T, T>) schedulersTransformer;
     }
 }
