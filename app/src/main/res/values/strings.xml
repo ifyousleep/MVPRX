@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MVP RX</string>
+
+    <string name="repo">Repo</string>
+    <string name="search">Search</string>
+    <string name="andrey7mel">ifyousleep</string>
+    <string name="empty_repo_list">Empty repo list</string>
+</resources>
