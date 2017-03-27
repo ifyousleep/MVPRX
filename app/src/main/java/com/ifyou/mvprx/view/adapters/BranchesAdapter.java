@@ -17,6 +17,6 @@ public class BranchesAdapter extends BaseAdapter<Branch> {
     @Override
     public void onBindViewHolder(BaseAdapter.ViewHolder holder, int position) {
         String text = list.get(position).getName();
-        holder.text.setText(text);
+        holder.text.setTitle(text);
     }
 }

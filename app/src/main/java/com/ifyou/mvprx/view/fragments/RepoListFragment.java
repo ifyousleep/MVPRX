@@ -43,11 +43,8 @@ public class RepoListFragment extends BaseFragment implements RepoListView {
     Button searchButton;
 
     private RepoListPresenter presenter = new RepoListPresenter(this);
-
     private RepoListAdapter adapter;
-
     private ActivityCallback activityCallback;
-
     private Unbinder unbinder;
 
     @Override
@@ -72,10 +69,10 @@ public class RepoListFragment extends BaseFragment implements RepoListView {
         View view = inflater.inflate(R.layout.fragment_repo_list, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(llm);
         adapter = new RepoListAdapter(new ArrayList<>(), presenter);
         recyclerView.setAdapter(adapter);
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(llm);
 
         searchButton.setOnClickListener(v -> presenter.onSearchButtonClick());
 

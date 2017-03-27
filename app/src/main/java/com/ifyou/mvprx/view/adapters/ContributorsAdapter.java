@@ -17,6 +17,6 @@ public class ContributorsAdapter extends BaseAdapter<Contributor> {
     @Override
     public void onBindViewHolder(BaseAdapter.ViewHolder viewHolder, int i) {
         String text = list.get(i).getName();
-        viewHolder.text.setText(text);
+        viewHolder.text.setTitle(text);
     }
 }

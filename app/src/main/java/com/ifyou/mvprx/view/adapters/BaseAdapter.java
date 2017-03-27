@@ -38,11 +38,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView text;
+        com.lucasurbas.listitemview.ListItemView text;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            text = (TextView) itemView.findViewById(R.id.textView);
+            text = (com.lucasurbas.listitemview.ListItemView) itemView.findViewById(R.id.textView);
         }
     }
 

@@ -79,6 +79,7 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoView {
         info.setText(infoText);
 
         branchesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         contributorsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         presenter = new RepoInfoPresenter(this, getRepositoryVO());
@@ -106,13 +107,17 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoView {
     }
 
     @Override
-    public void showContributors(List<Contributor> contributors) {
-        branchesRecyclerView.setAdapter(new ContributorsAdapter(contributors));
+    public void showBranches(List<Branch> branches) {
+        BranchesAdapter adapter = new BranchesAdapter(branches);
+        branchesRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showBranches(List<Branch> branches) {
-        contributorsRecyclerView.setAdapter(new BranchesAdapter(branches));
+    public void showContributors(List<Contributor> contributors) {
+        ContributorsAdapter adapter = new ContributorsAdapter(contributors);
+        contributorsRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
     }
 

@@ -21,7 +21,7 @@ public class RepoListAdapter extends BaseAdapter<Repository> {
     @Override
     public void onBindViewHolder(BaseAdapter.ViewHolder viewHolder, int i) {
         Repository repo = list.get(i);
-        viewHolder.text.setText(repo.getRepoName());
+        viewHolder.text.setTitle(repo.getRepoName());
         viewHolder.text.setOnClickListener(v -> presenter.clickRepo(repo));
     }
 

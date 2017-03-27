@@ -60,6 +60,7 @@ public class RepoListPresenter extends BasePresenter {
         addSubscription(subscription);
     }
 
+    @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             repoList = (List<Repository>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);

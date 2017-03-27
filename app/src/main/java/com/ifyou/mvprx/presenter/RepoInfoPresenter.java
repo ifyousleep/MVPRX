@@ -39,7 +39,7 @@ public class RepoInfoPresenter extends BasePresenter {
         this.repository = repository;
     }
 
-    public void loadData() {
+    private void loadData() {
         String owner = repository.getOwnerName();
         String name = repository.getRepoName();
 
@@ -85,13 +85,12 @@ public class RepoInfoPresenter extends BasePresenter {
         addSubscription(subscriptionContributors);
     }
 
+    @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
-
         if (savedInstanceState != null) {
             contributorList = (List<Contributor>) savedInstanceState.getSerializable(BUNDLE_CONTRIBUTORS_KEY);
             branchList = (List<Branch>) savedInstanceState.getSerializable(BUNDLE_BRANCHES_KEY);
         }
-
         if (contributorList == null || branchList == null) {
             loadData();
         } else {
