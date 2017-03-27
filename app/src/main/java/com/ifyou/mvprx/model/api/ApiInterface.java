@@ -1,6 +1,8 @@
 package com.ifyou.mvprx.model.api;
 
-import com.ifyou.mvprx.model.data.Response;
+import com.ifyou.mvprx.model.dto.BranchDTO;
+import com.ifyou.mvprx.model.dto.ContributorDTO;
+import com.ifyou.mvprx.model.dto.RepositoryDTO;
 
 import java.util.List;
 
@@ -15,6 +17,12 @@ import retrofit2.http.Path;
 public interface ApiInterface {
 
     @GET("users/{user}/repos")
-    Observable<List<Response>> getRepositories(@Path("user") String user);
+    Observable<List<RepositoryDTO>> getRepositories(@Path("user") String user);
+
+    @GET("/repos/{owner}/{repo}/contributors")
+    Observable<List<ContributorDTO>> getContributors(@Path("owner") String owner, @Path("repo") String repo);
+
+    @GET("/repos/{owner}/{repo}/branches")
+    Observable<List<BranchDTO>> getBranches(@Path("owner") String owner, @Path("repo") String repo);
 
 }

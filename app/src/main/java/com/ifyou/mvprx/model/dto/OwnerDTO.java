@@ -1,6 +1,6 @@
-package com.ifyou.mvprx.model.data;
+package com.ifyou.mvprx.model.dto;
 
-public class Owner {
+public class OwnerDTO {
     private String gistsUrl;
     private String reposUrl;
     private String followingUrl;

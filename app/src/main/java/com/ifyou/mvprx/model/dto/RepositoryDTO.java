@@ -1,6 +1,8 @@
-package com.ifyou.mvprx.model.data;
+package com.ifyou.mvprx.model.dto;
 
-public class Response{
+import com.ifyou.mvprx.model.dto.OwnerDTO;
+
+public class RepositoryDTO {
 	private int stargazersCount;
 	private String pushedAt;
 	private String subscriptionUrl;
@@ -46,7 +48,7 @@ public class Response{
 	private String stargazersUrl;
 	private String gitUrl;
 	private boolean hasPages;
-	private Owner owner;
+	private OwnerDTO owner;
 	private String commitsUrl;
 	private String compareUrl;
 	private String gitCommitsUrl;
@@ -430,11 +432,11 @@ public class Response{
 		return hasPages;
 	}
 
-	public void setOwner(Owner owner){
+	public void setOwner(OwnerDTO owner){
 		this.owner = owner;
 	}
 
-	public Owner getOwner(){
+	public OwnerDTO getOwner(){
 		return owner;
 	}
 
@@ -617,7 +619,7 @@ public class Response{
 	@Override
  	public String toString(){
 		return 
-			"Response{" + 
+			"RepositoryDTO{" +
 			"stargazers_count = '" + stargazersCount + '\'' + 
 			",pushed_at = '" + pushedAt + '\'' + 
 			",subscription_url = '" + subscriptionUrl + '\'' + 

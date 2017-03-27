@@ -2,8 +2,8 @@ package com.ifyou.mvprx.presenter;
 
 import com.ifyou.mvprx.model.Model;
 import com.ifyou.mvprx.model.ModelImpl;
-import com.ifyou.mvprx.model.data.Response;
-import com.ifyou.mvprx.view.View;
+import com.ifyou.mvprx.model.dto.RepositoryDTO;
+import com.ifyou.mvprx.view.fragments.View;
 
 import java.util.List;
 
@@ -25,13 +25,13 @@ public class ResponseListPresenter implements Presenter {
         this.view = view;
     }
 
-    @Override
+    /*@Override
     public void onSearchButtonClick() {
         if (!subscription.isDisposed()) {
             subscription.dispose();
         }
         subscription = model.getRepoList(view.getUserName())
-                .subscribeWith(new DisposableObserver<List<Response>>() {
+                .subscribeWith(new DisposableObserver<List<RepositoryDTO>>() {
                     @Override
                     public void onComplete() {
 
@@ -43,7 +43,7 @@ public class ResponseListPresenter implements Presenter {
                     }
 
                     @Override
-                    public void onNext(List<Response> data) {
+                    public void onNext(List<RepositoryDTO> data) {
                         if (data != null && !data.isEmpty()) {
                             view.showData(data);
                         } else {
@@ -51,7 +51,7 @@ public class ResponseListPresenter implements Presenter {
                         }
                     }
                 });
-    }
+    }*/
 
     @Override
     public void onStop() {

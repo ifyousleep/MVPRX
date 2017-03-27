@@ -1,26 +1,57 @@
 package com.ifyou.mvprx.view;
 
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.ifyou.mvprx.R;
-import com.ifyou.mvprx.model.data.Response;
-import com.ifyou.mvprx.presenter.Presenter;
-import com.ifyou.mvprx.presenter.ResponseListPresenter;
-import com.ifyou.mvprx.view.adapters.RecyclerViewAdapter;
-
-import java.util.List;
+import com.ifyou.mvprx.presenter.vo.Repository;
+import com.ifyou.mvprx.view.fragments.RepoInfoFragment;
+import com.ifyou.mvprx.view.fragments.RepoListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements View {
+
+public class MainActivity extends AppCompatActivity implements ActivityCallback {
+
+    private static String TAG = "TAG";
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    private FragmentManager fragmentManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        fragmentManager = getSupportFragmentManager();
+
+        Fragment fragment = fragmentManager.findFragmentByTag(TAG);
+        if (fragment == null) replaceFragment(new RepoListFragment(), false);
+    }
+
+    private void replaceFragment(Fragment fragment, boolean addBackStack) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.container, fragment, TAG);
+        if (addBackStack) transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void startRepoInfoFragment(Repository repository) {
+        replaceFragment(RepoInfoFragment.newInstance(repository), true);
+    }
+
+}
+
+/*public class MainActivity extends AppCompatActivity implements View {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -48,16 +79,13 @@ public class MainActivity extends AppCompatActivity implements View {
         adapter = new RecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
-        searchButton.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View v) {
-                presenter.onSearchButtonClick();
-            }
-        });
+        searchButton.setOnClickListener(v ->
+                presenter.onSearchButtonClick()
+        );
     }
 
     @Override
-    public void showData(List<Response> list) {
+    public void showData(List<RepositoryDTO> list) {
         adapter.setRepoList(list);
     }
 
@@ -87,4 +115,4 @@ public class MainActivity extends AppCompatActivity implements View {
     public String getUserName() {
         return editText.getText().toString();
     }
-}
+}*/

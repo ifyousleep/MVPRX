@@ -11,8 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiModule {
 
     public static ApiInterface getApiInterface() {
-        Retrofit.Builder builder = new Retrofit.Builder().
-                baseUrl("https://api.github.com/")
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         return builder.build().create(ApiInterface.class);

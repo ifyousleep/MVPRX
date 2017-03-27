@@ -1,6 +1,8 @@
 package com.ifyou.mvprx.model;
 
-import com.ifyou.mvprx.model.data.Response;
+import com.ifyou.mvprx.model.dto.BranchDTO;
+import com.ifyou.mvprx.model.dto.ContributorDTO;
+import com.ifyou.mvprx.model.dto.RepositoryDTO;
 
 import java.util.List;
 
@@ -12,5 +14,9 @@ import io.reactivex.Observable;
 
 public interface Model {
 
-    Observable<List<Response>> getRepoList(String name);
+    Observable<List<RepositoryDTO>> getRepoList(String name);
+
+    Observable<List<BranchDTO>> getRepoBranches(String owner, String name);
+
+    Observable<List<ContributorDTO>> getRepoContributors(String owner, String name);
 }

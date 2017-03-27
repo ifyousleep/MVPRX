@@ -11,16 +11,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ifyou.mvprx.R;
-import com.ifyou.mvprx.model.data.Response;
+import com.ifyou.mvprx.model.dto.RepositoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private List<Response> repoList = new ArrayList<>();
+    private List<RepositoryDTO> repoList = new ArrayList<>();
 
-    public void setRepoList(List<Response> repoList) {
+    public void setRepoList(List<RepositoryDTO> repoList) {
         this.repoList = repoList;
         notifyDataSetChanged();
     }
@@ -35,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Response Repo = repoList.get(i);
+        RepositoryDTO Repo = repoList.get(i);
         viewHolder.name.setText(Repo.getName());
     }
 

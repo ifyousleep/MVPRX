@@ -5,6 +5,6 @@ package com.ifyou.mvprx.presenter;
  */
 
 public interface Presenter {
-    void onSearchButtonClick();
+    //void onSearchButtonClick();
     void onStop();
 }
