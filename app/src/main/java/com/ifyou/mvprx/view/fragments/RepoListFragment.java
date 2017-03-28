@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ifyou.mvprx.R;
+import com.ifyou.mvprx.other.di.view.DaggerViewComponent;
+import com.ifyou.mvprx.other.di.view.ViewComponent;
+import com.ifyou.mvprx.other.di.view.ViewDynamicModule;
 import com.ifyou.mvprx.presenter.BasePresenter;
 import com.ifyou.mvprx.presenter.RepoListPresenter;
 import com.ifyou.mvprx.presenter.vo.Repository;
@@ -23,8 +26,11 @@ import com.ifyou.mvprx.view.adapters.RepoListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -42,10 +48,22 @@ public class RepoListFragment extends BaseFragment implements RepoListView {
     @BindView(R.id.button_search)
     Button searchButton;
 
-    private RepoListPresenter presenter = new RepoListPresenter(this);
+    @Inject
+    RepoListPresenter presenter;
+
+    //private RepoListPresenter presenter = new RepoListPresenter(this);
     private RepoListAdapter adapter;
     private ActivityCallback activityCallback;
     private Unbinder unbinder;
+
+    private ViewComponent viewComponent;
+
+    @OnClick(R.id.button_search)
+    public void onClickSearch(View v) {
+        if (presenter != null) {
+            presenter.onSearchButtonClick();
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -63,6 +81,21 @@ public class RepoListFragment extends BaseFragment implements RepoListView {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (viewComponent == null) {
+            viewComponent = DaggerViewComponent.builder()
+                    .viewDynamicModule(new ViewDynamicModule(this, activityCallback))
+                    .build();
+        }
+        viewComponent.inject(this);
+    }
+
+    public void setViewComponent(ViewComponent viewComponent) {
+        this.viewComponent = viewComponent;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,13 +107,16 @@ public class RepoListFragment extends BaseFragment implements RepoListView {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
 
-        searchButton.setOnClickListener(v -> presenter.onSearchButtonClick());
+        //searchButton.setOnClickListener(v -> presenter.onSearchButtonClick());
 
-        presenter.onCreate(savedInstanceState);
+        presenter.onCreateView(savedInstanceState);
 
         return view;
     }
 
+    public void clickSearchButton() {
+
+    }
 
     private void makeToast(String text) {
         Snackbar.make(recyclerView, text, Snackbar.LENGTH_LONG).show();

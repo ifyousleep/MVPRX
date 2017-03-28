@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ifyou.mvprx.R;
+import com.ifyou.mvprx.other.App;
 import com.ifyou.mvprx.presenter.BasePresenter;
 import com.ifyou.mvprx.presenter.RepoInfoPresenter;
 import com.ifyou.mvprx.presenter.vo.Branch;
@@ -20,6 +21,8 @@ import com.ifyou.mvprx.view.adapters.BranchesAdapter;
 import com.ifyou.mvprx.view.adapters.ContributorsAdapter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,19 +38,19 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoView {
 
     @BindView(R.id.repo_info)
     TextView info;
-
     @BindView(R.id.recycler_view_branches)
     RecyclerView branchesRecyclerView;
-
     @BindView(R.id.recycler_view_contributors)
     RecyclerView contributorsRecyclerView;
-
     @BindView(R.id.linear_layout)
     View layout;
 
+    @Inject
+    RepoInfoPresenter presenter;
+
     private Unbinder unbinder;
 
-    private RepoInfoPresenter presenter;
+    //private RepoInfoPresenter presenter;
 
     public static RepoInfoFragment newInstance(Repository repository) {
         RepoInfoFragment myFragment = new RepoInfoFragment();
@@ -62,11 +65,19 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoView {
 
     @Override
     protected BasePresenter getPresenter() {
+        App.getComponent().inject(this);
         return presenter;
     }
 
     private Repository getRepositoryVO() {
         return (Repository) getArguments().getSerializable(BUNDLE_REPO_KEY);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.getComponent().inject(this);
+        presenter.onCreate(this, getRepositoryVO());
     }
 
     @Nullable
@@ -82,8 +93,8 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoView {
 
         contributorsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        presenter = new RepoInfoPresenter(this, getRepositoryVO());
-        presenter.onCreate(savedInstanceState);
+        //presenter = new RepoInfoPresenter(this, getRepositoryVO());
+        presenter.onCreateView(savedInstanceState);
 
         return view;
     }
@@ -110,14 +121,12 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoView {
     public void showBranches(List<Branch> branches) {
         BranchesAdapter adapter = new BranchesAdapter(branches);
         branchesRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void showContributors(List<Contributor> contributors) {
         ContributorsAdapter adapter = new ContributorsAdapter(contributors);
         contributorsRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
     }
 

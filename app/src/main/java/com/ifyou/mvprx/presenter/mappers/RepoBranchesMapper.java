@@ -5,6 +5,8 @@ import com.ifyou.mvprx.presenter.vo.Branch;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
@@ -13,6 +15,10 @@ import io.reactivex.functions.Function;
  */
 
 public class RepoBranchesMapper implements Function<List<BranchDTO>, List<Branch>> {
+
+    @Inject
+    public RepoBranchesMapper() {
+    }
 
     @Override
     public List<Branch> apply (List<BranchDTO> branchDTOs) {

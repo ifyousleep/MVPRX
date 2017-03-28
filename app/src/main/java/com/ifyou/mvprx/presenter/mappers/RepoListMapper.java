@@ -5,6 +5,8 @@ import com.ifyou.mvprx.presenter.vo.Repository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
@@ -13,6 +15,11 @@ import io.reactivex.functions.Function;
  */
 
 public class RepoListMapper implements Function<List<RepositoryDTO>, List<Repository>> {
+
+    @Inject
+    public RepoListMapper() {
+
+    }
 
     @Override
     public List<Repository> apply (List<RepositoryDTO> repositoryDTOs) {

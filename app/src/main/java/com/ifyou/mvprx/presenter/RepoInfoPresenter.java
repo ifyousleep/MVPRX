@@ -2,6 +2,7 @@ package com.ifyou.mvprx.presenter;
 
 import android.os.Bundle;
 
+import com.ifyou.mvprx.other.App;
 import com.ifyou.mvprx.presenter.mappers.RepoBranchesMapper;
 import com.ifyou.mvprx.presenter.mappers.RepoContributorsMapper;
 import com.ifyou.mvprx.presenter.vo.Branch;
@@ -11,6 +12,8 @@ import com.ifyou.mvprx.view.fragments.RepoInfoView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -26,24 +29,28 @@ public class RepoInfoPresenter extends BasePresenter {
 
     private RepoInfoView view;
 
-    private RepoBranchesMapper branchesMapper = new RepoBranchesMapper();
-    private RepoContributorsMapper contributorsMapper = new RepoContributorsMapper();
+    //private RepoBranchesMapper branchesMapper = new RepoBranchesMapper();
+    //private RepoContributorsMapper contributorsMapper = new RepoContributorsMapper();
+    @Inject
+    protected RepoBranchesMapper branchesMapper;
+    @Inject
+    protected RepoContributorsMapper contributorsMapper;
 
     private List<Contributor> contributorList;
     private List<Branch> branchList;
 
     private Repository repository;
 
-    public RepoInfoPresenter(RepoInfoView view, Repository repository) {
+    /*public RepoInfoPresenter(RepoInfoView view, Repository repository) {
         this.view = view;
         this.repository = repository;
-    }
+    }*/
 
     private void loadData() {
         String owner = repository.getOwnerName();
         String name = repository.getRepoName();
 
-        Disposable subscriptionBranches = dataRepository.getRepoBranches(owner, name)
+        Disposable subscriptionBranches = model.getRepoBranches(owner, name)
                 .map(branchesMapper)
                 .subscribeWith(new DisposableObserver<List<Branch>>() {
                     @Override
@@ -63,7 +70,7 @@ public class RepoInfoPresenter extends BasePresenter {
                 });
         addSubscription(subscriptionBranches);
 
-        Disposable subscriptionContributors = dataRepository.getRepoContributors(owner, name)
+        Disposable subscriptionContributors = model.getRepoContributors(owner, name)
                 .map(contributorsMapper)
                 .subscribeWith(new DisposableObserver<List<Contributor>>() {
                     @Override
@@ -85,8 +92,14 @@ public class RepoInfoPresenter extends BasePresenter {
         addSubscription(subscriptionContributors);
     }
 
+    public void onCreate(RepoInfoView view, Repository repository) {
+        App.getComponent().inject(this);
+        this.view = view;
+        this.repository = repository;
+    }
+
     @SuppressWarnings("unchecked")
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreateView(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             contributorList = (List<Contributor>) savedInstanceState.getSerializable(BUNDLE_CONTRIBUTORS_KEY);
             branchList = (List<Branch>) savedInstanceState.getSerializable(BUNDLE_BRANCHES_KEY);

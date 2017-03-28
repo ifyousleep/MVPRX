@@ -1,16 +1,20 @@
 package com.ifyou.mvprx.model;
 
 import com.ifyou.mvprx.model.api.ApiInterface;
-import com.ifyou.mvprx.model.api.ApiModule;
 import com.ifyou.mvprx.model.dto.BranchDTO;
 import com.ifyou.mvprx.model.dto.ContributorDTO;
 import com.ifyou.mvprx.model.dto.RepositoryDTO;
+import com.ifyou.mvprx.other.App;
+import com.ifyou.mvprx.other.Const;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -20,12 +24,25 @@ import io.reactivex.schedulers.Schedulers;
 public class ModelImpl implements Model {
 
     private final ObservableTransformer schedulersTransformer;
-    private ApiInterface apiInterface = ApiModule.getApiInterface();
+
+    @Inject
+    protected ApiInterface apiInterface;
+
+    @Inject
+    @Named(Const.UI_THREAD)
+    Scheduler uiThread;
+
+    @Inject
+    @Named(Const.IO_THREAD)
+    Scheduler ioThread;
+
+    //private ApiInterface apiInterface = ApiModule.getApiInterface();
 
     public ModelImpl() {
+        App.getComponent().inject(this);
         schedulersTransformer = o -> (o).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io());
+                .observeOn(uiThread)
+                .unsubscribeOn(ioThread);
     }
 
     /*@Override

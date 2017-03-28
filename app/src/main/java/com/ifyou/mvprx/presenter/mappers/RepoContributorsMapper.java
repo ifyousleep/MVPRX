@@ -5,6 +5,8 @@ import com.ifyou.mvprx.presenter.vo.Contributor;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
@@ -13,6 +15,10 @@ import io.reactivex.functions.Function;
  */
 
 public class RepoContributorsMapper implements Function<List<ContributorDTO>, List<Contributor>> {
+
+    @Inject
+    public RepoContributorsMapper() {
+    }
 
     @Override
     public List<Contributor> apply (List<ContributorDTO> branchDTOs) {
